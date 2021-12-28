@@ -1,9 +1,9 @@
 import numpy as np
 from scipy.signal import butter, sosfilt
 
-def scaling(signal, sigma=0.05):
+def scaling(signal, scale=0.05):
     '''Introduces some noise into the signal'''
-    scale_factor = np.random.normal(loc=1.0, scale=sigma, size=(1, signal.shape[1]))
+    scale_factor = np.random.normal(loc=1.0, scale=scale, size=(1, signal.shape[1]))
     noise = np.matmul(np.ones((signal.shape[0], 1)), scale_factor)
     return signal * noise
 
@@ -38,7 +38,28 @@ def butter_bandpass_filter(signal, lowcut, highcut, fs, order=5):
         transformed_signal[:, i] = sosfilt(sos, signal[:, i])  
     return transformed_signal
 
+
 def transform(signal, train=True):
+    '''
+    Input: a signal to transform
+    Output: for a training signla: it is randomly transformed and returned 
+    '''
+    if train:
+        rn = np.random.randn()
+
+        if rn < 0.25:
+            signal = scaling(signal, scale=0.07)
+        elif rn >= 0.25 and rn < 0.50:
+            signal = vertical_flip(signal)
+        elif rn >= 0.5 and rn < 0.75:
+            signal = shift(signal, interval=20)
+        else:
+            signal = butter_bandpass_filter(signal, 0.05, 48, 256)
+
+    return signal
+
+# multiple transformations at a time
+def transform2(signal, train=True):
     '''
     Input: a signal to transform
     Output: for a training signla: it is randomly transformed and returned 
