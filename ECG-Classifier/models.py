@@ -2,7 +2,7 @@ import tensorflow as tf
 
 
 # A simple LSTM classifier
-def LSTMModel(seq_length=seq_length, n_class=n_class):
+def LSTMModel(seq_length=187, n_class=5):
     model = tf.keras.Sequential([
                                  tf.keras.layers.LSTM(256, input_shape=(seq_length, 1)),
                                  tf.keras.layers.Dense(n_class, activation="softmax"),
@@ -12,7 +12,7 @@ def LSTMModel(seq_length=seq_length, n_class=n_class):
 
  
 # Ref: https://arxiv.org/pdf/1805.00794.pdf
-def DeepResidualModel(seq_length=seq_length, depth=1, n_class=5):
+def DeepResidualModel(seq_length=187, depth=1, n_class=5):
     
     inputs = tf.keras.layers.Input(shape=(seq_length, depth))
     
