@@ -1,6 +1,12 @@
-import matplotlib.pyplot as plt
+import logging
+from typing import Tuple
 import tensorflow as tf
+import matplotlib.pyplot as plt
+from IPython.display import clear_output
 
+# tf warning suppression
+tf.autograph.set_verbosity(0)
+logging.getLogger("tensorflow").setLevel(logging.ERROR)
 
 class TrackMetrics(tf.keras.callbacks.Callback):
     """
